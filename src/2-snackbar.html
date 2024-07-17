@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="
+        https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css
+        "
+      rel="stylesheet"
+    />
+    <title>Snackbar</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <ul>
+        <li><a href="./index.html">Go to home</a></li>
+      </ul>
+    </header>
+    <section>
+      <form class="form">
+        <label>
+          <p>Delay (ms)</p>
+          <input class="delay-input" type="number" name="delay" required />
+        </label>
+        <fieldset class="fieldset">
+          <legend>State</legend>
+          <div class="conteiner">
+            <label>
+              <input
+                class="fulfilled-input"
+                type="radio"
+                name="state"
+                value="fulfilled"
+                required
+              />
+              Fulfilled
+            </label>
+            <label>
+              <input
+                class="rejected-input"
+                type="radio"
+                name="state"
+                value="rejected"
+                required
+              />
+              Rejected
+            </label>
+          </div>
+        </fieldset>
+        <button type="submit">Create notification</button>
+      </form>
+    </section>
+    <script src="
+      https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js
+      "></script>
+    <script src="./js/2-snackbar.js" type="module"></script>
+  </body>
+</html>
