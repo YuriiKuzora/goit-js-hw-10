@@ -10,7 +10,6 @@ const elements = {
 };
 
 elements.form.addEventListener('submit', handlerSubmit);
-elements.button.addEventListener('click', handlerClick);
 
 function handlerSubmit(evt) {
   evt.preventDefault();
@@ -20,8 +19,27 @@ function handlerSubmit(evt) {
     data[key] = value;
   });
 
-  const delay = data.delay;
+  let delay = parseInt(data.delay, 10);
   const status = data.state;
+
+  if (isNaN(delay) || delay < 0) {
+    iziToast.error({
+      title: 'Error',
+      message: '❌ Please enter a valid delay in milliseconds',
+    });
+
+    elements.input.value = '';
+    return;
+  }
+
+  if (status !== 'fulfilled' && status !== 'rejected') {
+    iziToast.error({
+      title: 'Error',
+      message: '❌ Invalid promise status',
+    });
+    return;
+  }
+
   const promise = new Promise((resolve, reject) => {
     setTimeout(() => {
       if (status === 'fulfilled') {
@@ -30,9 +48,9 @@ function handlerSubmit(evt) {
         reject(delay);
       }
     }, delay);
-  });
 
-  elements.input.value = '';
+    elements.input.value = '';
+  });
 
   promise
     .then(delay => {

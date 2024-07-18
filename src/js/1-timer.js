@@ -17,7 +17,10 @@ const elementsHours = {
   minutes: document.querySelector('span[data-minutes]'),
   seconds: document.querySelector('span[data-seconds]'),
 };
+
 let userDate = 0;
+
+elementsData.button.disabled = true;
 
 const options = {
   enableTime: true,
@@ -25,6 +28,8 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
+    if (selectedDates.length === 0) return;
+
     userDate = selectedDates[0];
 
     if (userDate <= new Date()) {
@@ -32,9 +37,9 @@ const options = {
         title: 'Error',
         message: 'Please choose a date in the future',
       });
-      button.disabled = true;
+      document.querySelector('button[data-start]').disabled = true;
     } else {
-      startButton.disabled = false;
+      document.querySelector('button[data-start]').disabled = false;
     }
   },
 };
@@ -68,22 +73,26 @@ function updateTimer({ days, hours, minutes, seconds }) {
 
 let timerInterval = 0;
 
-elementsData.button.addEventListener('click', () => {
-  elementsData.button.disabled = true;
-  elementsData.inputData.disabled = true;
+document.querySelector('button[data-start]').addEventListener('click', () => {
+  try {
+    document.querySelector('button[data-start]').disabled = true;
+    document.querySelector('#datetime-picker').disabled = true;
 
-  timerInterval = setInterval(() => {
-    const currentTime = new Date();
-    const leftTime = userDate - currentTime;
+    timerInterval = setInterval(() => {
+      const currentTime = new Date();
+      const leftTime = userDate - currentTime;
 
-    if (leftTime <= 0) {
-      clearInterval(timerInterval);
-      updateTimer({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      inputData.disabled = false;
-      return;
-    }
+      if (leftTime <= 0) {
+        clearInterval(timerInterval);
+        updateTimer({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        document.querySelector('#datetime-picker').disabled = false;
+        return;
+      }
 
-    const timeUpdate = convertMs(leftTime);
-    updateTimer(timeUpdate);
-  }, 1000);
+      const timeUpdate = convertMs(leftTime);
+      updateTimer(timeUpdate);
+    }, 1000);
+  } catch (error) {
+    console.error('Error starting the timer:', error);
+  }
 });
